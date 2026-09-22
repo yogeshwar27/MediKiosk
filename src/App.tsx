@@ -19,12 +19,28 @@ import {
 } from './types';
 import { SAMPLE_PATIENTS, SAMPLE_DOCUMENTS } from './data/mockPatients';
 import { stopSpeaking, UI_STRINGS } from './services/languageService';
-import { Menu, HeartPulse, Sparkles, AlertTriangle, ShieldCheck } from 'lucide-react';
+import { 
+  Menu, 
+  HeartPulse, 
+  Sparkles, 
+  AlertTriangle, 
+  ShieldCheck, 
+  Globe, 
+  ExternalLink, 
+  Terminal, 
+  Copy, 
+  Check, 
+  X, 
+  GitBranch 
+} from 'lucide-react';
 
 export default function App() {
   // Current active individual page
   const [currentPage, setCurrentPage] = useState<ExtendedPage>('kiosk');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [showLocalhostModal, setShowLocalhostModal] = useState<boolean>(false);
+  const [copiedUrl, setCopiedUrl] = useState<boolean>(false);
+  const [copiedCmd, setCopiedCmd] = useState<boolean>(false);
 
   // Kiosk step progress
   const [kioskStep, setKioskStep] = useState<number>(1); // 1: Login, 2: Interview, 3: OCR, 4: Summary, 5: Token
@@ -232,17 +248,38 @@ export default function App() {
             </div>
           </div>
 
-          <div className="flex items-center gap-2.5 text-xs">
+          <div className="flex items-center gap-2 text-xs">
             {/* Active Language Badge */}
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-800 font-bold rounded-xl border border-blue-200">
+            <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1.5 bg-blue-50 text-blue-800 font-bold rounded-xl border border-blue-200">
               <span className="text-[10px] uppercase font-mono text-blue-600">Lang:</span>
               <span>{language.toUpperCase()}</span>
             </div>
 
+            {/* Live Public Deployment Link */}
+            <a
+              href="https://ais-pre-vq5sfdcvnjgpfu2665gcmx-125875248336.asia-southeast1.run.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl shadow-xs transition"
+              title="Open Official Live Publication Link in new tab"
+            >
+              <Globe className="w-3.5 h-3.5" />
+              <span>Live App ↗</span>
+            </a>
+
+            {/* Run on Localhost Modal Trigger */}
+            <button
+              onClick={() => setShowLocalhostModal(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-xl border border-slate-200 transition"
+              title="Copy repo and run in localhost guide"
+            >
+              <Terminal className="w-3.5 h-3.5 text-slate-600" />
+              <span className="hidden sm:inline">Run Localhost</span>
+            </button>
+
             {/* Quick Status Pill */}
-            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-800 font-bold rounded-xl border border-emerald-200">
+            <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-800 font-bold rounded-xl border border-emerald-200">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
-              <span className="hidden md:inline">Online •</span>
               <span>AI Active</span>
             </div>
           </div>
@@ -427,18 +464,181 @@ export default function App() {
           <div className="flex items-center gap-2">
             <span className="font-extrabold text-blue-900">MediKiosk</span>
             <span>•</span>
-            <span>Indian Hospital OPD Clinical Intake & Triage System</span>
+            <span>SIH26047 Hospital Case-Taking Kiosk</span>
             <span>•</span>
-            <span className="text-[11px] bg-blue-50 text-blue-700 px-2 py-0.5 rounded font-mono font-semibold">
-              Live OPD Fast-Track Ready
-            </span>
+            <a
+              href="https://ais-pre-vq5sfdcvnjgpfu2665gcmx-125875248336.asia-southeast1.run.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold px-2 py-0.5 rounded border border-blue-200 transition inline-flex items-center gap-1"
+            >
+              <Globe className="w-3 h-3" />
+              <span>Public Live URL ↗</span>
+            </a>
           </div>
 
-          <div className="text-[11px] text-slate-400">
-            Bhashini Multilingual Speech Engine • Gemini 3.8 Flash • Real-time Triage
+          <div className="flex items-center gap-3 text-[11px] text-slate-500">
+            <button
+              onClick={() => setShowLocalhostModal(true)}
+              className="text-blue-600 hover:text-blue-800 font-bold underline cursor-pointer"
+            >
+              Localhost Setup Guide
+            </button>
+            <span>•</span>
+            <span>Gemini 2.5 Flash • ABDM & FHIR R4 Ready</span>
           </div>
         </footer>
       </div>
+
+      {/* GitHub Repository & Localhost Run Guide Modal */}
+      {showLocalhostModal && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 space-y-6 max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-blue-600 text-white flex items-center justify-center shadow-md shadow-blue-500/25">
+                  <Terminal className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-extrabold text-slate-900 text-lg">
+                    Run MediKiosk on Localhost
+                  </h3>
+                  <p className="text-xs text-slate-500">
+                    Smart India Hackathon 2024 • Problem Statement SIH26047
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowLocalhostModal(false)}
+                className="p-2 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
+                aria-label="Close Modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* 1. Official Publication Link */}
+            <div className="p-4 rounded-2xl bg-blue-50/80 border border-blue-200 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-extrabold text-blue-900 flex items-center gap-1.5">
+                  <Globe className="w-4 h-4 text-blue-600" />
+                  Official Live Publication URL (Cloud Run)
+                </span>
+                <span className="text-[10px] bg-emerald-100 text-emerald-800 font-extrabold px-2 py-0.5 rounded-full border border-emerald-300">
+                  Live & Deployed
+                </span>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="text"
+                  readOnly
+                  value="https://ais-pre-vq5sfdcvnjgpfu2665gcmx-125875248336.asia-southeast1.run.app"
+                  className="flex-1 bg-white border border-blue-200 rounded-xl px-3 py-2 text-xs font-mono text-blue-900 select-all"
+                />
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText("https://ais-pre-vq5sfdcvnjgpfu2665gcmx-125875248336.asia-southeast1.run.app");
+                    setCopiedUrl(true);
+                    setTimeout(() => setCopiedUrl(false), 2000);
+                  }}
+                  className="px-3 py-2 bg-white hover:bg-blue-100 border border-blue-300 text-blue-700 rounded-xl font-bold text-xs flex items-center gap-1 transition"
+                  title="Copy URL"
+                >
+                  {copiedUrl ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{copiedUrl ? 'Copied' : 'Copy'}</span>
+                </button>
+                <a
+                  href="https://ais-pre-vq5sfdcvnjgpfu2665gcmx-125875248336.asia-southeast1.run.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold text-xs flex items-center gap-1 transition shadow-xs"
+                >
+                  <span>Open ↗</span>
+                </a>
+              </div>
+            </div>
+
+            {/* 2. Step-by-Step Localhost Setup Commands */}
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <h4 className="font-extrabold text-slate-800 text-xs uppercase tracking-wider flex items-center gap-1.5">
+                  <GitBranch className="w-3.5 h-3.5 text-slate-600" />
+                  Terminal Commands (Clone & Run on Localhost)
+                </h4>
+                <button
+                  onClick={() => {
+                    const script = `git clone https://github.com/<your-username>/medikiosk-clinical-history-kiosk.git\ncd medikiosk-clinical-history-kiosk\nnpm install\ncp .env.example .env\nnpm run dev`;
+                    navigator.clipboard.writeText(script);
+                    setCopiedCmd(true);
+                    setTimeout(() => setCopiedCmd(false), 2000);
+                  }}
+                  className="text-xs text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1"
+                >
+                  {copiedCmd ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                  <span>{copiedCmd ? 'Commands Copied!' : 'Copy All Commands'}</span>
+                </button>
+              </div>
+
+              <div className="p-4 rounded-2xl bg-slate-950 text-slate-100 font-mono text-xs space-y-2 shadow-inner">
+                <div className="text-slate-400"># 1. Clone repository to your machine</div>
+                <div className="text-emerald-400">git clone https://github.com/&lt;your-username&gt;/medikiosk-clinical-history-kiosk.git</div>
+                <div className="text-slate-400"># 2. Enter folder & install dependencies</div>
+                <div className="text-emerald-400">cd medikiosk-clinical-history-kiosk && npm install</div>
+                <div className="text-slate-400"># 3. Create environment config file</div>
+                <div className="text-emerald-400">cp .env.example .env</div>
+                <div className="text-slate-400"># 4. Start local development server</div>
+                <div className="text-cyan-400">npm run dev</div>
+              </div>
+              <p className="text-[11px] text-slate-500">
+                Server runs at <span className="font-mono font-bold text-slate-800 bg-slate-100 px-1.5 py-0.5 rounded">http://localhost:3000</span>.
+                Includes full Express backend with persistent patient, doctor & queue database.
+              </p>
+            </div>
+
+            {/* 3. Pre-Loaded Test Accounts for Localhost Testing */}
+            <div className="space-y-2 pt-2 border-t border-slate-100">
+              <h4 className="font-extrabold text-slate-800 text-xs uppercase tracking-wider">
+                Instant Test Credentials
+              </h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                  <div className="font-bold text-slate-900 mb-1 flex items-center justify-between">
+                    <span>Patient Portal Login</span>
+                    <span className="text-[10px] bg-blue-100 text-blue-800 font-mono font-bold px-1.5 rounded">ABHA</span>
+                  </div>
+                  <div className="text-[11px] text-slate-600 font-mono space-y-0.5">
+                    <div>ABHA: <strong className="text-slate-900">91-4523-8821-9043</strong></div>
+                    <div>Mobile: <strong className="text-slate-900">9876543210</strong></div>
+                    <div>PIN: <strong className="text-slate-900">1234</strong></div>
+                  </div>
+                </div>
+
+                <div className="p-3 rounded-xl bg-slate-50 border border-slate-200">
+                  <div className="font-bold text-slate-900 mb-1 flex items-center justify-between">
+                    <span>Doctor Portal Login</span>
+                    <span className="text-[10px] bg-indigo-100 text-indigo-800 font-mono font-bold px-1.5 rounded">NMC</span>
+                  </div>
+                  <div className="text-[11px] text-slate-600 font-mono space-y-0.5">
+                    <div>Reg No: <strong className="text-slate-900">TSMC-48921</strong></div>
+                    <div>Password: <strong className="text-slate-900">doctor123</strong></div>
+                    <div>Sample Token: <strong className="text-slate-900">OPD-A-042</strong></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Actions */}
+            <div className="pt-2 flex justify-end">
+              <button
+                onClick={() => setShowLocalhostModal(false)}
+                className="px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-xs transition"
+              >
+                Close Guide
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

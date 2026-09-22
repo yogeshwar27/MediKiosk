@@ -16,7 +16,8 @@ import {
   Sparkles,
   Hospital,
   Activity,
-  Layers
+  Layers,
+  ExternalLink
 } from 'lucide-react';
 import { AppMode, SupportedLanguage } from '../types';
 import { SUPPORTED_LANGUAGES, UI_STRINGS } from '../services/languageService';
@@ -222,6 +223,29 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </button>
             );
           })}
+        </div>
+
+        {/* Live Publication & Localhost Status Pill */}
+        <div className="mx-3 my-2 p-2.5 rounded-2xl bg-gradient-to-r from-blue-50/90 to-indigo-50/90 border border-blue-200/80 shadow-xs">
+          <div className="flex items-center justify-between text-[11px] mb-1">
+            <span className="font-extrabold text-blue-900 flex items-center gap-1">
+              <Globe className="w-3 h-3 text-blue-600" />
+              Live Deployment
+            </span>
+            <span className="px-1.5 py-0.2 rounded-full text-[9px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300">
+              Online
+            </span>
+          </div>
+          <a
+            href="https://ais-pre-vq5sfdcvnjgpfu2665gcmx-125875248336.asia-southeast1.run.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center justify-between p-1.5 rounded-xl bg-white text-blue-700 hover:text-blue-900 hover:bg-blue-50 border border-blue-200/60 text-[11px] font-bold transition"
+            title="Open Public Deployment in new tab"
+          >
+            <span className="truncate">Public App URL</span>
+            <ExternalLink className="w-3 h-3 text-blue-500 group-hover:translate-x-0.5 transition" />
+          </a>
         </div>
 
         {/* Bottom Kiosk Controls & Emergency Trigger */}

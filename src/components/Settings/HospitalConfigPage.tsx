@@ -12,7 +12,11 @@ import {
   Play, 
   RotateCcw,
   Mic,
-  Activity
+  Activity,
+  ExternalLink,
+  Terminal,
+  Copy,
+  Check
 } from 'lucide-react';
 import { SupportedLanguage } from '../../types';
 import { SUPPORTED_LANGUAGES, speakText, stopSpeaking } from '../../services/languageService';
@@ -277,6 +281,68 @@ export const HospitalConfigPage: React.FC<HospitalConfigPageProps> = ({
             </button>
           </div>
         </form>
+      </div>
+
+      {/* GitHub Repository & Live Publication Card */}
+      <div className="bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 text-white rounded-3xl p-6 sm:p-8 shadow-xl border border-blue-900/50 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-blue-800/60 pb-5">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-blue-600/30 border border-blue-400/40 text-blue-300 flex items-center justify-center shrink-0">
+              <Globe className="w-6 h-6" />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-white text-lg">
+                Official Live Publication & GitHub Repository
+              </h3>
+              <p className="text-xs text-blue-200">
+                Cloud Run Live Deployment & Localhost Run Configuration (SIH26047)
+              </p>
+            </div>
+          </div>
+
+          <a
+            href="https://ais-pre-vq5sfdcvnjgpfu2665gcmx-125875248336.asia-southeast1.run.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-5 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-400 text-white font-extrabold text-xs flex items-center justify-center gap-2 transition shadow-lg shadow-blue-500/30"
+          >
+            <span>Open Live Publication</span>
+            <ExternalLink className="w-4 h-4" />
+          </a>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs">
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+            <div className="font-bold text-blue-300 text-xs flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+              <span>Public Cloud Run URL</span>
+            </div>
+            <div className="p-2.5 rounded-xl bg-black/40 font-mono text-emerald-300 text-[11px] break-all select-all border border-white/5">
+              https://ais-pre-vq5sfdcvnjgpfu2665gcmx-125875248336.asia-southeast1.run.app
+            </div>
+            <p className="text-[11px] text-slate-300">
+              Includes real-time Gemini AI integration, persistent OPD tokens, and multi-language speech.
+            </p>
+          </div>
+
+          <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+            <div className="font-bold text-blue-300 text-xs flex items-center gap-2">
+              <Terminal className="w-3.5 h-3.5 text-blue-400" />
+              <span>Run in Localhost</span>
+            </div>
+            <div className="p-2.5 rounded-xl bg-black/40 font-mono text-cyan-300 text-[11px] break-all border border-white/5">
+              git clone &lt;repo&gt; &amp;&amp; npm install &amp;&amp; npm run dev
+            </div>
+            <p className="text-[11px] text-slate-300">
+              Starts both the Vite frontend &amp; Node.js Express server on <strong className="text-white">http://localhost:3000</strong>.
+            </p>
+          </div>
+        </div>
+
+        <div className="pt-2 flex items-center justify-between text-[11px] text-blue-300/80 font-mono border-t border-blue-900/40">
+          <span>Backend Health Check: <code className="text-white bg-white/10 px-1.5 py-0.5 rounded">/api/health</code></span>
+          <span>MIT License • GitHub Ready</span>
+        </div>
       </div>
     </div>
   );

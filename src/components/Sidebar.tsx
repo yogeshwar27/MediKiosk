@@ -17,12 +17,13 @@ import {
   Hospital,
   Activity,
   Layers,
-  ExternalLink
+  ExternalLink,
+  UserCheck
 } from 'lucide-react';
 import { AppMode, SupportedLanguage } from '../types';
 import { SUPPORTED_LANGUAGES, UI_STRINGS } from '../services/languageService';
 
-export type ExtendedPage = AppMode | 'analytics' | 'settings';
+export type ExtendedPage = AppMode | 'analytics' | 'settings' | 'patient-portal';
 
 interface SidebarProps {
   currentPage: ExtendedPage;
@@ -62,6 +63,15 @@ export const Sidebar: React.FC<SidebarProps> = ({
       badge: 'Step 1-5',
       badgeColor: 'bg-blue-100 text-blue-800',
       description: 'Voice & touch self-checkin'
+    },
+    {
+      id: 'patient-portal' as ExtendedPage,
+      label: 'Patient Portal & History',
+      vernacularLabel: 'मरीज़ रिकॉर्ड / చరిత్ర',
+      icon: UserCheck,
+      badge: 'ABDM',
+      badgeColor: 'bg-emerald-100 text-emerald-800',
+      description: 'Tokens, prescriptions & past visits'
     },
     {
       id: 'doctor' as ExtendedPage,

@@ -9,6 +9,7 @@ import {
   Pill, 
   FlaskConical, 
   ArrowRight, 
+  ArrowLeft,
   Trash2, 
   Clock, 
   Building2,
@@ -379,13 +380,14 @@ export const DocumentScanStep: React.FC<DocumentScanStepProps> = ({
           <div className="flex items-center justify-between gap-3 pt-2">
             <button
               onClick={onBack}
-              className="px-5 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-100"
+              className="px-5 py-3 rounded-xl border border-slate-300 text-slate-700 font-bold text-sm hover:bg-slate-100 flex items-center gap-2 transition active:scale-95"
             >
-              {t.backBtn}
+              <ArrowLeft className="w-4 h-4" />
+              <span>{t.backBtn}</span>
             </button>
             <button
               onClick={onProceed}
-              className="px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-600/20 flex items-center gap-2"
+              className="px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-600/20 flex items-center gap-2 transition active:scale-95"
             >
               <span>{t.continueBtn}: Check Summary Before Submitting</span>
               <ArrowRight className="w-4 h-4" />

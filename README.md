@@ -5,11 +5,11 @@
 > **Target Environment**: District Civil Hospitals, Medical Colleges & Rural Community Health Centers (CHCs/PHCs)
 
 [![Live Public Deployment](https://img.shields.io/badge/Live_Deployment-Cloud_Run-blue?style=for-the-badge&logo=googlecloud)](https://ais-pre-vq5sfdcvnjgpfu2665gcmx-125875248336.asia-southeast1.run.app)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![React 19](https://img.shields.io/badge/React-19.0-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![Tailwind CSS 4](https://img.shields.io/badge/Tailwind_CSS-v4.0-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![Spring Boot 3.2](https://img.shields.io/badge/Spring_Boot-3.2.5-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)](https://spring.io/projects/spring-boot)
+[![PostgreSQL / SQL](https://img.shields.io/badge/SQL-PostgreSQL_%7C_MySQL_%7C_JPA-336791?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Google Gemini AI](https://img.shields.io/badge/Google_Gemini-2.5_Flash-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)](https://ai.google.dev/)
-[![Express.js](https://img.shields.io/badge/Node.js-Express_Server-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 [![ABDM Compliant](https://img.shields.io/badge/ABDM-FHIR_R4_Ready-138808?style=for-the-badge)](https://abdm.gov.in/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
@@ -240,10 +240,10 @@ For immediate testing on localhost or live evaluation:
 | Component | Technology | Role |
 | :--- | :--- | :--- |
 | **Frontend UI** | React 19, TypeScript, Tailwind CSS v4, Motion | High-speed, responsive kiosk interface with accessible touch targets |
-| **Icons & Design** | Lucide React | Clinical vector iconography |
-| **Backend Server** | Node.js, Express 4.x, tsx, esbuild | Full-stack server hosting `/api/*` endpoints and serving Vite SPA |
+| **Spring Boot Backend** | Java 17, Spring Boot 3.2.5, Maven (`/backend-spring-boot`) | Production Java REST API with JPA repositories, entities & controllers |
+| **Relational SQL Database**| PostgreSQL / MySQL / H2 (`schema.sql` & `data.sql`) | 9 relational tables with foreign keys, indexes, and automated seeds |
+| **Cloud Run Full-Stack Server** | Node.js, Express 4.x, tsx, esbuild (`server.ts`) | Single-port cloud container runtime serving Vite SPA + REST API |
 | **AI Clinical Engine** | Google Gemini 2.5 Flash (`@google/genai`) | Multilingual conversational intake, prescription OCR, and HPI synthesis |
-| **Persistence Layer**| File-backed atomic JSON database (`server/db.ts`) | Persistent storage of patient profiles, doctors, tokens, and prescriptions |
 | **Voice Engine** | Web Speech Synthesis API | Native client-side speech generation with acoustic modulation |
 | **Standardization** | ABDM FHIR R4 schema alignment | Seamless mapping to Indian digital health infrastructure |
 

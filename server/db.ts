@@ -444,3 +444,15 @@ export function saveDoctorPrescription(
   saveDatabase(db);
   return db.tokens[existingIdx];
 }
+
+export function getTokensByPatient(patientIdentifier: string): StoredQueueToken[] {
+  const db = initDatabase();
+  const clean = patientIdentifier.trim().toLowerCase().replace(/[\s-]/g, '');
+  return db.tokens.filter(t => {
+    const pId = (t.patientId || '').toLowerCase().replace(/[\s-]/g, '');
+    const abha = (t.abhaNumber || '').toLowerCase().replace(/[\s-]/g, '');
+    const mob = (t.mobile || '').replace(/[\s-]/g, '');
+    return pId === clean || abha === clean || mob === clean;
+  });
+}
+

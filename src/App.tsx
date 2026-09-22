@@ -5,6 +5,7 @@ import { VoiceTouchInterviewStep } from './components/KioskTerminal/VoiceTouchIn
 import { DocumentScanStep } from './components/KioskTerminal/DocumentScanStep';
 import { ClinicalSynthesisSummaryStep } from './components/KioskTerminal/ClinicalSynthesisSummaryStep';
 import { KioskCompletionStep } from './components/KioskTerminal/KioskCompletionStep';
+import { PatientDashboard } from './components/PatientPortal/PatientDashboard';
 import { DoctorConsultationView } from './components/DoctorPortal/DoctorConsultationView';
 import { DoctorAuthGate } from './components/DoctorPortal/DoctorAuthGate';
 import { OpdQueueManager } from './components/Triage/OpdQueueManager';
@@ -233,6 +234,7 @@ export default function App() {
             <div className="flex items-center gap-2">
               <span className="font-extrabold text-slate-900 text-sm sm:text-base tracking-tight">
                 {currentPage === 'kiosk' && 'Patient Intake Terminal'}
+                {currentPage === 'patient-portal' && 'Registered Patient Portal & Medical History'}
                 {currentPage === 'doctor' && "Doctor's Consultation Station (EMR)"}
                 {currentPage === 'triage' && 'Emergency Priority & Live OPD Queue'}
                 {currentPage === 'analytics' && 'Clinical Impact & Bottleneck Analytics'}
@@ -345,6 +347,7 @@ export default function App() {
                   assistedMode={assistedMode}
                   speechEnabled={speechEnabled}
                   onCompleteInterview={handleInterviewComplete}
+                  onBack={() => setKioskStep(1)}
                 />
               )}
 
@@ -385,9 +388,28 @@ export default function App() {
                   emergencyReason={emergencyReason}
                   onGoToDoctorView={handleGoToDoctorView}
                   onStartNewSession={handleStartNewSession}
+                  onBackToSummary={() => setKioskStep(4)}
+                  onGoToPatientDashboard={() => {
+                    stopSpeaking();
+                    setCurrentPage('patient-portal');
+                  }}
                 />
               )}
             </div>
+          )}
+
+          {/* INDIVIDUAL PAGE: PATIENT DASHBOARD & HISTORY */}
+          {currentPage === 'patient-portal' && (
+            <PatientDashboard
+              currentPatient={activePatient}
+              language={language}
+              onSwitchToKiosk={() => {
+                stopSpeaking();
+                setCurrentPage('kiosk');
+                setKioskStep(1);
+              }}
+              onUpdatePatient={(updated) => setActivePatient(updated)}
+            />
           )}
 
           {/* INDIVIDUAL PAGE 2: DOCTOR'S EMR CONSULTATION STATION */}
@@ -593,6 +615,23 @@ export default function App() {
                 Server runs at <span className="font-mono font-bold text-slate-800 bg-slate-100 px-1.5 py-0.5 rounded">http://localhost:3000</span>.
                 Includes full Express backend with persistent patient, doctor & queue database.
               </p>
+
+              {/* Spring Boot & SQL Option */}
+              <div className="p-3 rounded-xl bg-emerald-50/70 border border-emerald-200 text-emerald-950 space-y-1">
+                <div className="flex items-center justify-between text-xs font-bold text-emerald-900">
+                  <span>🍃 Java Spring Boot & Relational SQL Backend</span>
+                  <span className="text-[10px] bg-emerald-200 text-emerald-900 px-1.5 py-0.5 rounded font-mono">Port 8080</span>
+                </div>
+                <p className="text-[11px] text-emerald-800">
+                  Full Spring Boot 3.2 + JPA + PostgreSQL/H2 source code included in <code className="font-bold bg-white/80 px-1 py-0.5 rounded">/backend-spring-boot</code>:
+                </p>
+                <div className="font-mono text-[11px] bg-slate-900 text-emerald-300 p-2 rounded-lg select-all">
+                  cd backend-spring-boot &amp;&amp; mvn spring-boot:run
+                </div>
+                <div className="text-[10px] text-emerald-700">
+                  H2 Web SQL Console: <code className="font-mono font-bold">http://localhost:8080/h2-console</code> (JDBC: <code className="font-mono">jdbc:h2:mem:medikioskdb</code>)
+                </div>
+              </div>
             </div>
 
             {/* 3. Pre-Loaded Test Accounts for Localhost Testing */}

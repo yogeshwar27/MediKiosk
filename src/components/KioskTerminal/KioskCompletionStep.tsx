@@ -4,6 +4,7 @@ import {
   QrCode, 
   Printer, 
   ArrowRight, 
+  ArrowLeft,
   AlertTriangle, 
   Clock, 
   Building, 
@@ -24,6 +25,8 @@ interface KioskCompletionStepProps {
   emergencyReason?: string;
   onGoToDoctorView: () => void;
   onStartNewSession: () => void;
+  onGoToPatientDashboard?: () => void;
+  onBackToSummary?: () => void;
 }
 
 export const KioskCompletionStep: React.FC<KioskCompletionStepProps> = ({
@@ -33,6 +36,8 @@ export const KioskCompletionStep: React.FC<KioskCompletionStepProps> = ({
   emergencyReason,
   onGoToDoctorView,
   onStartNewSession,
+  onGoToPatientDashboard,
+  onBackToSummary,
 }) => {
   const [downloadSuccess, setDownloadSuccess] = useState<string | null>(null);
 
@@ -350,13 +355,35 @@ INSTRUCTIONS:
           <ArrowRight className="w-5 h-5" />
         </button>
 
-        <button
-          onClick={onStartNewSession}
-          className="w-full py-3 px-4 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs flex items-center justify-center gap-2 transition"
-        >
-          <RotateCcw className="w-4 h-4 text-slate-500" />
-          <span>Next Patient Kiosk Session (अगले मरीज का पंजीकरण)</span>
-        </button>
+        {onGoToPatientDashboard && (
+          <button
+            onClick={onGoToPatientDashboard}
+            className="w-full py-3.5 px-6 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 active:scale-95 transition"
+          >
+            <CheckCircle2 className="w-4 h-4" />
+            <span>View My Patient Dashboard &amp; Full Medical History (मरीज़ रिकॉर्ड देखें)</span>
+          </button>
+        )}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          {onBackToSummary && (
+            <button
+              onClick={onBackToSummary}
+              className="w-full py-3 px-4 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs flex items-center justify-center gap-2 transition active:scale-95"
+            >
+              <ArrowLeft className="w-4 h-4 text-slate-500" />
+              <span>Back to Clinical Summary (संक्षेप पर वापस जाएं)</span>
+            </button>
+          )}
+
+          <button
+            onClick={onStartNewSession}
+            className={`w-full py-3 px-4 rounded-xl border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs flex items-center justify-center gap-2 transition active:scale-95 ${!onBackToSummary ? 'sm:col-span-2' : ''}`}
+          >
+            <RotateCcw className="w-4 h-4 text-slate-500" />
+            <span>Next Patient Session (नया सत्र)</span>
+          </button>
+        </div>
       </div>
     </div>
   );

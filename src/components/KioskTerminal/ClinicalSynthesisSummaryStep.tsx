@@ -596,10 +596,10 @@ export const ClinicalSynthesisSummaryStep: React.FC<ClinicalSynthesisSummaryStep
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
         <button
           onClick={onBackToScan}
-          className="w-full sm:w-auto px-5 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-100 flex items-center justify-center gap-2"
+          className="w-full sm:w-auto px-5 py-3 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-100 flex items-center justify-center gap-2 transition active:scale-95"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Back to Document Scan</span>
+          <span>Back to Document Scan (वापस जाएं)</span>
         </button>
 
         <button

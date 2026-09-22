@@ -13,7 +13,8 @@ import {
   getAllTokens, 
   findToken, 
   saveTokenRecord, 
-  saveDoctorPrescription 
+  saveDoctorPrescription,
+  getTokensByPatient 
 } from "./server/db";
 
 dotenv.config();
@@ -603,6 +604,41 @@ app.get("/api/queue/token/:tokenNumber", (req, res) => {
   } catch (err: any) {
     console.error("Fetch token error:", err);
     res.status(500).json({ error: err.message || "Failed to retrieve token details" });
+  }
+});
+
+// Get Complete Clinical History & Prior Visits for a Patient
+app.get("/api/patient/history/:identifier", (req, res) => {
+  try {
+    const { identifier } = req.params;
+    if (!identifier) {
+      return res.status(400).json({ error: "Patient identifier is required" });
+    }
+    const patient = findPatient(identifier);
+    const tokens = getTokensByPatient(identifier);
+
+    // Collect all documents, prescriptions, and timeline events
+    const allPrescriptions = tokens
+      .filter(t => t.prescription)
+      .map(t => ({
+        tokenNumber: t.tokenNumber,
+        department: t.opdDepartment,
+        date: t.createdAt,
+        ...t.prescription
+      }));
+
+    const allScannedDocs = tokens.flatMap(t => t.scannedDocs || []);
+
+    res.json({
+      patient: patient || null,
+      tokens,
+      prescriptions: allPrescriptions,
+      documents: allScannedDocs,
+      totalVisits: tokens.length,
+    });
+  } catch (err: any) {
+    console.error("Fetch patient history error:", err);
+    res.status(500).json({ error: err.message || "Failed to retrieve patient history" });
   }
 });
 

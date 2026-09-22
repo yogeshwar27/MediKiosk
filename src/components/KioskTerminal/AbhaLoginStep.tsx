@@ -4,6 +4,7 @@ import {
   QrCode, 
   CheckCircle2, 
   ArrowRight,
+  ArrowLeft,
   Loader2,
   Phone,
   User,
@@ -603,23 +604,37 @@ export const AbhaLoginStep: React.FC<AbhaLoginStepProps> = ({
               </div>
             </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full mt-2 py-3.5 bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white rounded-xl font-bold text-sm shadow-md shadow-blue-600/20 transition flex items-center justify-center gap-2"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  <span>Registering & Generating ABHA ID...</span>
-                </>
-              ) : (
-                <>
-                  <span>Create ABHA Profile & Proceed to Intake</span>
-                  <ArrowRight className="w-4 h-4" />
-                </>
-              )}
-            </button>
+            <div className="flex items-center gap-2 mt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setAuthMode('login');
+                  setErrorMessage(null);
+                }}
+                className="py-3.5 px-4 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95 shadow-2xs"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Back to Login</span>
+              </button>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="flex-1 py-3.5 bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white rounded-xl font-bold text-sm shadow-md shadow-blue-600/20 transition flex items-center justify-center gap-2"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>Registering & Generating ABHA ID...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Create ABHA Profile & Proceed to Intake</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            </div>
           </form>
         )}
       </div>

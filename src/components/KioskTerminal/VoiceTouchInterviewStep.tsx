@@ -9,6 +9,7 @@ import {
   Sparkles, 
   Flame, 
   ArrowRight,
+  ArrowLeft,
   RotateCcw
 } from 'lucide-react';
 import { PatientProfile, ChatMessage, SupportedLanguage } from '../../types';
@@ -28,6 +29,7 @@ interface VoiceTouchInterviewStepProps {
   assistedMode: boolean;
   speechEnabled: boolean;
   onCompleteInterview: (messages: ChatMessage[], emergencyFlag: boolean, emergencyReason?: string) => void;
+  onBack?: () => void;
 }
 
 export const VoiceTouchInterviewStep: React.FC<VoiceTouchInterviewStepProps> = ({
@@ -36,6 +38,7 @@ export const VoiceTouchInterviewStep: React.FC<VoiceTouchInterviewStepProps> = (
   assistedMode,
   speechEnabled,
   onCompleteInterview,
+  onBack,
 }) => {
   const t = UI_STRINGS[language] || UI_STRINGS.en;
   const currentLangInfo = SUPPORTED_LANGUAGES.find(l => l.code === language) || SUPPORTED_LANGUAGES[0];
@@ -380,6 +383,19 @@ export const VoiceTouchInterviewStep: React.FC<VoiceTouchInterviewStepProps> = (
             </div>
 
             <div className="flex items-center gap-2">
+              {onBack && (
+                <button
+                  onClick={() => {
+                    stopSpeaking();
+                    onBack();
+                  }}
+                  className="px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition active:scale-95 shadow-2xs"
+                  title="Back to Step 1 (ABHA Login)"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>{t.backBtn}</span>
+                </button>
+              )}
               <span className="text-xs font-semibold px-3 py-1 rounded-lg bg-blue-100/80 text-blue-900 border border-blue-200">
                 {t.touchVoiceNote}
               </span>
@@ -641,13 +657,27 @@ export const VoiceTouchInterviewStep: React.FC<VoiceTouchInterviewStepProps> = (
                 {messages.filter(m => m.sender === 'user').length} answers
               </span>
             </div>
-            <button
-              onClick={handleFinishAndProceed}
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-sm text-sm active:scale-95 transition"
-            >
-              <span>{t.continueBtn}: {t.reportScan}</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
+            <div className="flex items-center gap-2">
+              {onBack && (
+                <button
+                  onClick={() => {
+                    stopSpeaking();
+                    onBack();
+                  }}
+                  className="py-3.5 px-4 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95 shadow-2xs"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  <span>{t.backBtn}</span>
+                </button>
+              )}
+              <button
+                onClick={handleFinishAndProceed}
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3.5 px-4 rounded-xl flex items-center justify-center gap-2 shadow-sm text-sm active:scale-95 transition"
+              >
+                <span>{t.continueBtn}: {t.reportScan}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
